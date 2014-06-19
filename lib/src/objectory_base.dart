@@ -87,6 +87,7 @@ class Objectory{
         objectory._addToCache(result);
       }
     }
+    result.postFind();
     return result;
   }
   List createTypedList(Type classType) {
@@ -169,7 +170,7 @@ class Objectory{
       } else {
         obj.fetchLinks().then((_) {
           completer.complete(obj);
-        });  
+        });
       }
     }
   }
