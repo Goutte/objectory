@@ -7,7 +7,7 @@ import 'dart:collection';
 part 'persistent_list.dart';
 
 class BasePersistentObject {
-  final Map _map = objectory.dataMapDecorator(new LinkedHashMap());
+  Map _map;
   Map get map => _map;
   set map(Map newValue) {
     _setMap(newValue);
@@ -16,6 +16,11 @@ class BasePersistentObject {
   Map<String,dynamic> _compoundProperties;
   bool saveOnUpdate = false;
   BasePersistentObject() {
+    if (objectory != null) {
+      _map = objectory.dataMapDecorator(new LinkedHashMap());
+    } else {
+      _map = new LinkedHashMap();
+    }
     _setMap(map);
   }
   void _setMap(Map newValue) {
