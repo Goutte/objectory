@@ -153,10 +153,10 @@ class BasePersistentObject {
 
   /// A pre-save hook/advisor for the user to override.
   /// Will be called by `objectory.save()`.
-  void preSave();
+  void preSave(){}
   /// A post-find hook/advisor for the user to override.
   /// Will be called by `objectory.find()` after the map is hydrated.
-  void postFind();
+  void postFind(){}
 }
 class PersistentObject extends BasePersistentObject{
   ObjectId get id => map['_id'];
