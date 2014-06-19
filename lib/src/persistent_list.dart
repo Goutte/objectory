@@ -25,6 +25,7 @@ class PersistentList<E> extends ListBase<E>{
   BasePersistentObject _parent;
   String _pathToMe;
   Type elementType;
+  Map _cache = new Map(); // #hack: may rip something up
   List _list;
 //  set internalList(List value) => _list = value;
   List get internalList => _list;
@@ -77,11 +78,19 @@ class PersistentList<E> extends ListBase<E>{
 
   void operator[]=(int index, E value){
     _list[index] = internValue(value);
+    _cache[_list[index]] = value; // #hack: may rip something up
     setDirty(null);
   }
 
-  E operator[](int index) => valueConverter.convertValue(_list[index]);
-  
+//  E operator[](int index) => valueConverter.convertValue(_list[index]);
+  // #hack: may rip something up
+  E operator[](int index) {
+    if (!_cache.containsKey(_list[index])) {
+      _cache[_list[index]] = valueConverter.convertValue(_list[index]);
+    }
+    return _cache[_list[index]];
+  }
+
   void clear() {
     setDirty(null);
     _list.clear();
