@@ -96,15 +96,16 @@ class Objectory{
   List<String> getCollections() => _collections.values.map((ObjectoryCollection oc) => oc.collectionName).toList();
   
   Future save(PersistentObject persistentObject){
+    // pre-save hook for users to extend
+    persistentObject.preSave();
     Future res;
     if (persistentObject.id != null){
       res = update(persistentObject);
-    }
-    else{
+    } else {
       persistentObject.id = generateId();
       persistentObject.map["_id"] = persistentObject.id;
       objectory._addToCache(persistentObject);
-      res =  insert(persistentObject);
+      res = insert(persistentObject);
     }
     persistentObject.dirtyFields.clear();
     return res;

@@ -186,7 +186,6 @@ class PersistentObject extends BasePersistentObject{
       save();
     }
   }
-
   Future<PersistentObject> fetch() {
     if (this.isFetched) {
       return new Future.value(this);
@@ -194,6 +193,9 @@ class PersistentObject extends BasePersistentObject{
       return objectory[this.runtimeType].findOne(where.id(id));
     }
   }
+  /// A pre-save hook/advisor for the user to override.
+  /// Will be called by `objectory.save()`.
+  void preSave();
 }
 class EmbeddedPersistentObject extends BasePersistentObject{
   BasePersistentObject _parent;
